@@ -1,11 +1,9 @@
 package cky.cky_api.controller;
 
 import cky.cky_api.service.WeatherService;
-import jakarta.validation.Valid;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,18 +16,16 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
-    void getYouTubeInfo() {
-        weatherService.getWeatherInfo();
-    }
-
     @GetMapping(value = "/video")
-    public String video() {
-        return weatherService.parseWeather(weatherService.getWeatherInfo());
+    public String video(@RequestParam double latitude, @RequestParam double longitude) {
+        return weatherService.parseWeather(weatherService.getWeatherInfo(latitude, longitude));
     }
 
     @GetMapping(value = "")
-    public String temp() {
-
-        return weatherService.getWeatherInfo();
+    public String weather(@RequestParam double latitude, @RequestParam double longitude) {
+        System.out.println("latitude = " + latitude);
+        System.out.println("longitude = " + longitude);
+        return weatherService.getWeatherInfo(latitude, longitude);
     }
+
 }

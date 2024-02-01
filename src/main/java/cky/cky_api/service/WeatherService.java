@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -17,14 +18,17 @@ import java.util.Map;
 public class WeatherService {
 
     private final YoutubeService youtubeService;
-    private String apiKey = "667662d793fabee1f20af45291c64ad2";
+    @Value("${openweathermap.key}")
+    private String apiKey;
 
     public WeatherService(YoutubeService youtubeService) {
         this.youtubeService = youtubeService;
     }
 
-    public String getWeatherInfo() {
-        String apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=" + apiKey;
+    public String getWeatherInfo(double latitude, double longitude) {
+        System.out.println("apiKey = " + apiKey);
+        String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
+        System.out.println("apiUrl = " + apiUrl);
 
         try {
             URL url = new URL(apiUrl);
