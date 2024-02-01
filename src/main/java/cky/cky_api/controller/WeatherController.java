@@ -27,7 +27,6 @@ public class WeatherController {
         return weatherService.parseWeather(weatherService.getWeatherInfo());
     }
 
-    @CrossOrigin(origins="*")
     @GetMapping(value = "")
     public String temp() {
 
