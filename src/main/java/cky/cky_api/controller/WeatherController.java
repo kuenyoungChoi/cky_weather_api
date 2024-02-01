@@ -3,6 +3,7 @@ package cky.cky_api.controller;
 import cky.cky_api.service.WeatherService;
 import jakarta.validation.Valid;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ public class WeatherController {
         return weatherService.parseWeather(weatherService.getWeatherInfo());
     }
 
+    @CrossOrigin(origins="*")
     @GetMapping(value = "")
     public String temp() {
 
