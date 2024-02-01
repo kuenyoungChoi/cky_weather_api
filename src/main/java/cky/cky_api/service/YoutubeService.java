@@ -12,7 +12,7 @@ public class YoutubeService {
 
     public String getVideoInfo(String weather) {
         System.out.println("weather = " + weather);
-        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyD_ZXEyYc2ko2X__MeH7jBt1DSUulvmZ9I&q=" + weather + "%20music&maxDuration=180&type=video&part=snippet";
+        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyD_ZXEyYc2ko2X__MeH7jBt1DSUulvmZ9I&q=" + weather + "%20music&videoDuration=medium&type=video&part=snippet";
 
         try {
             URL url = new URL(apiUrl);
