@@ -1,6 +1,7 @@
 package cky.cky_api.service;
 
 import cky.cky_api.entity.ApiResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -11,9 +12,13 @@ import java.net.URL;
 @Service
 public class YoutubeService {
 
+    @Value("${youtubeapi.key}")
+    private String apiKey;
+
     public String getVideoInfo(String weather) {
         System.out.println("weather = " + weather);
-        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyD_ZXEyYc2ko2X__MeH7jBt1DSUulvmZ9I&q=" + weather + "%20music&videoDuration=medium&type=video&part=snippet";
+
+        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + weather + "%20music&videoDuration=medium&type=video&part=snippet";
 
         try {
             URL url = new URL(apiUrl);
