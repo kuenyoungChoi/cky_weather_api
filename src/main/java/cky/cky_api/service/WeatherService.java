@@ -21,15 +21,14 @@ public class WeatherService {
     private final YoutubeService youtubeService;
     @Value("${openweathermap.key}")
     private String apiKey;
+    JSONObject res = new JSONObject();
 
     public WeatherService(YoutubeService youtubeService) {
         this.youtubeService = youtubeService;
     }
 
     public String getWeatherInfo(double latitude, double longitude) {
-        System.out.println("apiKey = " + apiKey);
         String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + apiKey;
-        System.out.println("apiUrl = " + apiUrl);
 
         try {
             URL url = new URL(apiUrl);
@@ -51,9 +50,30 @@ public class WeatherService {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println("response = " + response.toString());
-//            parseWeather(response.toString());
-            return response.toString();
+
+            //기온 값 변환
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject;
+            jsonObject = (JSONObject) jsonParser.parse(response.toString());
+
+            JSONObject m = (JSONObject) jsonObject.get("main");
+            Double tempRes = (Double) m.get("temp");
+            long tempRound = Math.round(tempRes);
+
+            Integer temp = (int) (tempRound - 273.15);
+            /////////
+
+            res.put("temp", temp);
+
+            JSONArray jsonArray = (JSONArray) jsonObject.get("weather");
+
+            for (int i =0; i < jsonArray.size(); i++) {
+                JSONObject jo = (JSONObject) jsonArray.get(i);
+                String weather = (String) jo.get("main");
+                res.put("weather", weather);
+            }
+
+            return res.toString();
         } catch (Exception e) {
             return "failed to get response!";
         }
@@ -65,7 +85,6 @@ public class WeatherService {
 
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject;
-        String main = null;
 
         try{
             jsonObject = (JSONObject) jsonParser.parse(jsonString);     // 파싱 결과
@@ -73,25 +92,9 @@ public class WeatherService {
             throw new RuntimeException(e);
         }
 
-        Map<String, Object> resultMap = new HashMap<>();
-        JSONObject mainData = (JSONObject) jsonObject.get("main");          // main의 value
-        resultMap.put("temp", mainData.get("temp"));
-        System.out.println("resultMap = " + resultMap);
+        String weather = (String) jsonObject.get("weather");
 
 
-        JSONArray jsonArray = (JSONArray) jsonObject.get("weather");
-        System.out.println("jsonArray = " + jsonArray);
-
-        for (int i =0; i < jsonArray.size(); i++) {
-            JSONObject jo = (JSONObject) jsonArray.get(i);
-            System.out.println("jo = " + jo);
-            main = (String) jo.get("main");
-        }
-
-        resultMap.put("main", mainData.get("main"));
-        resultMap.put("icon", mainData.get("icon"));
-
-
-        return youtubeService.getVideoInfo(main);
+        return youtubeService.getVideoInfo(weather);
     }
 }
