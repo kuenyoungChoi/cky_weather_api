@@ -94,7 +94,6 @@ public class WeatherService {
 
         String weather = (String) jsonObject.get("weather");
 
-
         return youtubeService.getVideoInfo(weather);
     }
 }
