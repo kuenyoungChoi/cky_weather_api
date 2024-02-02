@@ -1,6 +1,7 @@
 package cky.cky_api.controller;
 
 import cky.cky_api.service.WeatherService;
+import cky.cky_api.service.YoutubeService;
 import cky.cky_api.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -15,14 +16,15 @@ public class WeatherController {
 
     private final ResponseService responseService;
     private final WeatherService weatherService;
+    private final YoutubeService youtubeService;
 
     @GetMapping(value = "/video")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> video(@RequestParam double latitude, @RequestParam double longitude) throws ParseException {
-        return responseService.ok(weatherService.parseWeather(weatherService.getWeatherInfo(latitude, longitude)));
+    public ResponseEntity<?> video(@RequestParam String keyword) throws ParseException {
+        return responseService.ok(youtubeService.getVideoInfo(keyword));
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/weather")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> weather(@RequestParam double latitude, @RequestParam double longitude) throws ParseException {
         System.out.println("latitude = " + latitude);

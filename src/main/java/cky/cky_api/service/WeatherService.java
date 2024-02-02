@@ -75,22 +75,4 @@ public class WeatherService {
             return "failed to get response!";
         }
     }
-
-    public String parseWeather(String jsonString) {
-
-        System.out.println("jsonString = " + jsonString);
-
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject;
-
-        try{
-            jsonObject = (JSONObject) jsonParser.parse(jsonString);     // 파싱 결과
-        }catch (ParseException e){
-            throw new RuntimeException(e);
-        }
-
-        String weather = (String) jsonObject.get("weather");
-
-        return youtubeService.getVideoInfo(weather);
-    }
 }
