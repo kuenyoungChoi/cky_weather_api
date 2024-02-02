@@ -1,5 +1,6 @@
 package cky.cky_api.service;
 
+import cky.cky_api.entity.ApiResponse;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;

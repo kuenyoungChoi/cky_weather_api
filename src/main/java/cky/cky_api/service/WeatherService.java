@@ -1,5 +1,6 @@
 package cky.cky_api.service;
 
+import cky.cky_api.entity.ApiResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
