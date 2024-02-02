@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +24,15 @@ public class YoutubeService {
     @Value("${youtubeapi.key}")
     private String apiKey;
     public String getVideoInfo(String keyword) {
-        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + keyword + "%20music&videoDuration=medium&type=video&part=snippet";
+        String test = keyword + "때 듣기 좋은노래모음";
+//        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + keyword + "%20music&videoDuration=medium&type=video&part=snippet";
 
         Map<String, List<Map<String, Object>>> weatherData = new HashMap<>();
         List<Map<String, Object>> itemList = new ArrayList<>();
         try {
+            String encodedKeyword = URLEncoder.encode(test, "UTF-8");
+
+            String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + encodedKeyword + "%20music&videoDuration=medium&type=video&part=snippet";
             URL url = new URL(apiUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();  //  apiUrl을 HttpURL 형식으로 연결
             connection.setRequestMethod("GET"); // get 요청
@@ -47,6 +52,7 @@ public class YoutubeService {
                 response.append(inputLine);
             }
             br.close();
+            System.out.println("response = " + response);
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject;
