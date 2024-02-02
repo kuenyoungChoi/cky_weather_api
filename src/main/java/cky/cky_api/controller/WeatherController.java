@@ -1,6 +1,5 @@
 package cky.cky_api.controller;
 
-import cky.cky_api.entity.ApiResponse;
 import cky.cky_api.service.WeatherService;
 import cky.cky_api.service.response.ResponseService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +29,4 @@ public class WeatherController {
         System.out.println("longitude = " + longitude);
         return responseService.ok(weatherService.getWeatherInfo(latitude, longitude));
     }
-
 }

@@ -24,10 +24,9 @@ public class YoutubeService {
     private String apiKey;
     Map<String, List<Map<String, Object>>> weatherData = new HashMap<>();
     List<Map<String, Object>> itemList = new ArrayList<>();
-    public String getVideoInfo(String weather) {
-        System.out.println("weather = " + weather);
+    public String getVideoInfo(String keyword) {
 
-        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + weather + "%20music&videoDuration=medium&type=video&part=snippet";
+        String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + keyword + "%20music&videoDuration=medium&type=video&part=snippet";
 
         try {
             URL url = new URL(apiUrl);
@@ -49,7 +48,6 @@ public class YoutubeService {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println("response = " + response.toString());
 
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject;
@@ -57,15 +55,13 @@ public class YoutubeService {
 
             JSONArray jsonArray = (JSONArray) jsonObject.get("items");
 
-            System.out.println("jsonArray = " + jsonArray);
-
             for (int i =0; i < jsonArray.size(); i++) {
                 JSONObject jo = (JSONObject) jsonArray.get(i);
+                System.out.println("jo = " + jo);
                 JSONObject snippet = (JSONObject) jo.get("snippet");
                 JSONObject thumbnails = (JSONObject) snippet.get("thumbnails");
-                JSONObject defaults = (JSONObject) thumbnails.get("default");
+                JSONObject defaults = (JSONObject) thumbnails.get("medium");
                 JSONObject id = (JSONObject) jo.get("id");
-                System.out.println("snippet = " + snippet);
                 Map<String, Object> item = new HashMap<>();
                 item.put("title", (String) snippet.get("title"));
                 item.put("url", (String) defaults.get("url"));

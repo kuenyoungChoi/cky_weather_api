@@ -1,6 +1,5 @@
 package cky.cky_api.service;
 
-import cky.cky_api.entity.ApiResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,8 +11,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class WeatherService {
