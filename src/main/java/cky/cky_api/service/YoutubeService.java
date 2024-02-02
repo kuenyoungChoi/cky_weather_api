@@ -22,12 +22,11 @@ public class YoutubeService {
 
     @Value("${youtubeapi.key}")
     private String apiKey;
-    Map<String, List<Map<String, Object>>> weatherData = new HashMap<>();
-    List<Map<String, Object>> itemList = new ArrayList<>();
     public String getVideoInfo(String keyword) {
-
         String apiUrl = "https://www.googleapis.com/youtube/v3/search?key=" + apiKey + "&q=" + keyword + "%20music&videoDuration=medium&type=video&part=snippet";
 
+        Map<String, List<Map<String, Object>>> weatherData = new HashMap<>();
+        List<Map<String, Object>> itemList = new ArrayList<>();
         try {
             URL url = new URL(apiUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();  //  apiUrl을 HttpURL 형식으로 연결
