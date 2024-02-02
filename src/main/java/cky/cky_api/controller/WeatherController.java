@@ -21,14 +21,25 @@ public class WeatherController {
     @GetMapping(value = "/video")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> video(@RequestParam String keyword) throws ParseException {
-        return responseService.ok(youtubeService.getVideoInfo(keyword));
+
+        if (!keyword.equals(null)) {
+            return responseService.ok(youtubeService.getVideoInfo(keyword));
+        } else {
+            return responseService.fail("FAIL");
+        }
     }
 
     @GetMapping(value = "/weather")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> weather(@RequestParam double latitude, @RequestParam double longitude) throws ParseException {
+    public ResponseEntity<?> weather(@RequestParam(required = false) Double latitude, @RequestParam(required = false) Double longitude) throws ParseException {
         System.out.println("latitude = " + latitude);
         System.out.println("longitude = " + longitude);
-        return responseService.ok(weatherService.getWeatherInfo(latitude, longitude));
+
+        if (latitude == null || longitude == null) {
+            // 처리할 로직 추가 (예: 유효하지 않은 값으로 응답하거나 예외를 throw)
+            return responseService.fail("FAIL");
+        } else {
+            return responseService.ok(weatherService.getWeatherInfo(latitude, longitude));
+        }
     }
 }

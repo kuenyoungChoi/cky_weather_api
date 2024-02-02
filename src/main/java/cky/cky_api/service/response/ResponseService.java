@@ -23,8 +23,37 @@ public class ResponseService {
         return ResponseEntity.ok().body(result);
     }
 
+    public ResponseEntity<?> result(HttpStatus status, ResponseCode code, String message) {
+        CommonResult result = new CommonResult();
+        result.setCode(code.toString());
+        result.setMsg(message);
+        result.setStatus(status.value());
+        return new ResponseEntity<>(result, status);
+    }
+
     public <T> ResponseEntity<?> ok(T data) throws ParseException {
         System.out.println("data = " + data.getClass().getName());
         return result(HttpStatus.OK, ResponseCode.OK, data);
+    }
+
+    public <T> ResponseEntity<?> fail(String message) {
+        return result(HttpStatus.BAD_REQUEST, ResponseCode.FAIL, message);
+    }
+
+    /**
+     * 오류 메시지
+     */
+    public ResponseEntity<?> error() {
+        ErrorResult result = new ErrorResult();
+        result.setError("");
+        result.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public <T> ResponseEntity<?> error(String message) {
+        ErrorResult result = new ErrorResult();
+        result.setError(message);
+        result.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
